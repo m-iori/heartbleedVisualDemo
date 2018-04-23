@@ -8,12 +8,12 @@
         height: 100%;
       }
       #left {
-        background-color: #ffeeee; 
-        display: inline;
+        background-color: #ffeeee;
+        float: left;
       }
       #right {
         background-color: #00bbbb;
-        float: left;
+        float: right;
       }
       textarea {
         width: 70%;
@@ -28,7 +28,7 @@
       Message: <input type="text"></input>
       Message Length: <input type="number"></input>
       <button>Send Request</button>
-      <textarea disabled></textarea>
+      <textarea readonly></textarea>
     </div>
     <div id="right">
       <h2>Patched Server</h2>
@@ -36,7 +36,7 @@
       Message: <input type="text"></input>
       Message Length: <input type="number"></input>
       <button>Send Request</button>
-      <textarea disabled></textarea>
+      <textarea readonly></textarea>
     </div>
     <div style="clear:both"></div>
   </body>
