@@ -1,0 +1,40 @@
+<!DOCTYPE>
+<html>
+  <head>
+    <title>HeartBleed Demo</title>
+    <style>
+      #left, #right {
+        width: 50%;
+        height: 100%;
+      }
+      #left {
+        background-color: #ffeeee; 
+      }
+      #right {
+        background-color: #00bbbb;
+      }
+      textarea {
+        width: 70%;
+        height: 10%;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="left">
+      <h2>Vulnerable Server</h2>
+      <p>HeartBleed is a dangerous vulnerability still affecting Web servers that use outdated versions of OpenSSL today.</p>
+      Message: <input type="text"></input>
+      Message Length: <input type="number"></input>
+      <button>Send Request</button>
+      <textarea></textarea>
+    </div>
+    <div id="right">
+      <h2>Patched Server</h2>
+      <p>Once the server updates to the latest version of OpenSSL, the boundary of data is enforced.</p>
+      Message: <input type="text"></input>
+      Message Length: <input type="number"></input>
+      <button>Send Request</button>
+      <textarea></textarea>
+    </div>
+  </body>
+</html>
