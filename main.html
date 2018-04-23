@@ -20,23 +20,37 @@
         height: 10%;
       }
     </style>
+    <script>
+      function printResponse(server){
+        if(server === "vulnerable"){
+           document.getElementById("v_msg").value.replace("<", "");
+           document.getElementById("v_msg").value.replace(">", "");
+           document.getElementById(server).innerHTML = "Hi! You are logged in. Also, here are user passwords... credit card numbers... social security numbers... phone numbers... addresses... employee data... health records..."
+        }
+        else{
+           document.getElementById("p_msg").value.replace("<", "");
+           document.getElementById("p_msg").value.replace(">", "");
+           document.getElementById(server).innerHTML = "Hi! You are logged in."
+        }
+      }
+    </script>
   </head>
   <body>
     <div id="left">
       <h2>Vulnerable Server</h2>
       <p>HeartBleed is a dangerous vulnerability still affecting Web servers that use outdated versions of OpenSSL today.</p>
-      Message: <input type="text"></input>
+      Message: <input id="v_msg" type="text"></input>
       Message Length: <input type="number"></input>
-      <button>Send Request</button>
-      <textarea readonly></textarea>
+      <button onclick="printResponse('vulnerable')">Send Request</button>
+      <textarea id="vulnerable" readonly></textarea>
     </div>
     <div id="right">
       <h2>Patched Server</h2>
       <p>Once the server updates to the latest version of OpenSSL, the boundary of data is enforced.</p>
-      Message: <input type="text"></input>
+      Message: <input id="p_msg" type="text"></input>
       Message Length: <input type="number"></input>
-      <button>Send Request</button>
-      <textarea readonly></textarea>
+      <button id="printResponse('patched')">Send Request</button>
+      <textarea id="patched" readonly></textarea>
     </div>
     <div style="clear:both"></div>
   </body>
