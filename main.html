@@ -25,7 +25,7 @@
         if(server === "vulnerable"){
            document.getElementById("v_msg").value.replace("<", "");
            document.getElementById("v_msg").value.replace(">", "");
-           len = parseInt(document.getElementById("v_length");
+           len = parseInt(document.getElementById("v_length"));
            vulnData = "Hi! You are logged in. Also, here are user passwords... credit card numbers... social security numbers... phone numbers... addresses... employee data... health records... and so on and so forth... until there's no data left in my memory to show you.";
            document.getElementById(server).innerHTML = vulnData.substring(0, len);
         }
