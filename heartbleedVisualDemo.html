@@ -1,0 +1,125 @@
+<!-- Melissa Iori -->
+<!DOCTYPE>
+<html>
+  <head>
+    <title>Heartbleed Visual Demo</title>
+    <style>
+      #left, #right {
+        width: 50%;
+        height: 70%;
+      }
+      #left, #right, #top{
+        font-family: Verdana, sans-serif;
+        font-size: 12pt;
+      }
+      #top{
+        padding: 2px 2px 2px 2px;
+      }
+      #left {
+        background-color: #ed4224;
+        float: left;
+      }
+      #right {
+        background-color: #66ff75;
+        float: right;
+      }
+      textarea {
+        width: 70%;
+        height: 18%;
+      }
+      #patched, #vulnerable{
+        font-family: 'Courier New', monospace;
+      }
+    </style>
+    <script>
+      // Prints the "server response"
+      function printResponse(server){
+        if(server === "vulnerable"){
+           cleanEcho = ""
+
+           // Preventing XSS through sanitization (even though the data doesn't persist!)
+           cleanEcho = document.getElementById("v_msg").value.replace("<", "!");
+           cleanEcho = cleanEcho.replace(">", "!");
+           
+           vulnData = "...Hi! You are logged in. Also, here are user passwords... credit card numbers... social security numbers... phone numbers... addresses... employee data... health records... and so on and so forth... until there's no data left in my memory to show you...";
+           
+           // Gets the message length
+           if(document.getElementById("v_length").value !== ""){
+            len = parseInt(document.getElementById("v_length").value);
+           }
+           else{
+            len = vulnData.length;
+           }
+
+           // Echoes the message - and data if "exploited"
+           if(len === cleanEcho.length){
+              document.getElementById(server).innerHTML = cleanEcho
+           }
+           else if(len > cleanEcho.length){
+              document.getElementById(server).innerHTML = cleanEcho + vulnData.substring(0, len-cleanEcho.length);
+           }
+           else{
+              document.getElementById(server).innerHTML = cleanEcho.substring(0, len);
+           }
+
+           // Blank if blank
+           if(document.getElementById("v_length").value === "" && document.getElementById("v_msg").value === ""){
+              document.getElementById(server).innerHTML = "";    
+           }
+        }
+
+        // Patched server
+        else{
+           cleanEcho = ""
+           
+           // XSS
+           cleanEcho = document.getElementById("p_msg").value.replace("<", "!");
+           cleanEcho = cleanEcho.replace(">", "!");
+           
+           // Get the length
+           if(document.getElementById("p_length").value !== ""){
+            len = parseInt(document.getElementById("p_length").value);
+           }
+
+           // Echo message, or error message if length mismatch
+           if(len === cleanEcho.length){
+            document.getElementById(server).innerHTML = cleanEcho
+           } 
+           else{
+            document.getElementById(server).innerHTML = "ACCESS DENIED - I'm safe from Heartbleed attacks because I noticed that the Message Length you provided does not match the actual message length! I'm so glad an administrator patched my OpenSSL to the latest version!!!"
+           } 
+        }
+      }
+    </script>
+  </head>
+  <body>
+    <div id="top">
+      <h1>Heartbleed Visual Demo</h1>
+      <p>Melissa Iori (Melissa.Iori at tufts.edu)</p>
+      <p><small>In 2014, a devastating vulnerability was discovered in OpenSSL, a widely used implementation of SSL/TLS. (SSL/TLS keeps our data secure on the Internet.) The vulnerability is a bug called Heartbleed. This bug allows hackers to potentially view private information if they exploit Heartbleed correctly. Heartbleed is a dangerous vulnerability still affecting Web servers that use outdated versions of OpenSSL today. Versions 1.0.1 through 1.0.1g of the software are vulnerable to these attacks. If you own a server running OpenSSL, you have hopefully updated your software already - if not, you should do so immediately to protect your users. To learn more, visit <a target="_blank" href="http://heartbleed.com">http://heartbleed.com</a>. Below, you'll find an interactive demo that will allow you to see how Heartbleed works (Don't worry, there are no real servers or data involved! The demo is only a simulation!)<br />Disclaimer: Use of this exploit on real servers without permission could land you in prison. I take no responsibility for misuse of this knowledge. The demo is for informational purposes only.</small></p>
+    </div>
+
+    <div id="left">
+      <h2>Vulnerable Server</h2>
+      <p>This demo allows you to send requests to a simulated server. Send the server a short word like "hello" by typing into the Message box. Then, set the Message Length to any number you want, say, 55. Hit Send Request to see the result. Attackers exploited Heartbleed by repeatedly sending bad requests with a Message Length that far exceeds the actual length of your message ("length" refers to the number of letters or characters in your message). Try gradually increasing the Message Length and see what the response is...</p><br />
+      Message: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input id="v_msg" type="text" maxlength="20"></input><br />
+      Message Length: <input id="v_length" type="number" min="1" max="64000"></input><br />
+      <button onclick="printResponse('vulnerable')">Send Request</button><br />
+      Server Response:<br />
+      <textarea id="vulnerable" readonly></textarea>
+    </div>
+
+    <div id="right">
+      <h2>Patched Server</h2>
+      <p>Once the server is updated to the latest version of OpenSSL, the boundary of data is enforced and the server is safe from harm. Try your exploit again as you did on the Vulnerable Server and see the difference. (To see a successful request, try setting your message length to have the exact same number of letters as your message (including any punctuation or spaces))</p><br /><br />
+      Message: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input id="p_msg" type="text" maxlength="20"></input><br />
+      Message Length: <input id="p_length" type="number" min="1" max="64000"></input><br />
+      <button onclick="printResponse('patched')">Send Request</button><br />
+      Server Response:<br />
+      <textarea id="patched" readonly></textarea>
+    </div>
+
+    <div style="clear:both"></div>
+
+  </body>
+</html>
